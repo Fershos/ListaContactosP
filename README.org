@@ -1,0 +1,90 @@
+#+title:  Proyecto final Lenguajes y Paradigmas de Programación
+#+author:
+#+date:
+
+#+OPTIONS: toc:nil
+
+* Descripción general
+El proyecto de la Experiencia Educativa Lenguajes y Paradigmas de
+ Programación consiste en desarrollar un sistema que permita gestionar listas de contactos.
+
+* Requisitos funcionales
+El sistema cuentan con las siguientes funcionalidades:
+
++ Registrar usuario en el sistema: se captura información de identificación, esto
+  es, nombre completo, usuario y contraseña, así como información de
+  contacto como correo electrónico
+
++ Identificar usuario (login) del sistema: se valida usuario y contraseña para
+  determinar la identidad del usuario y darle acceso a su lista de contactos
+
++ Registrar contacto: le permite a los usuarios del sistema agregar un contacto a su lista de contactos. Los datos de registro son los siguientes:
+  * Nombre del contacto
+  * Teléfono
+  * Correo electrónico
+  * URL de página personal (opcional)
+
++ Ver listado de contactos: es una lista de los nombres de los contactos ordenados alfabéticamente 
++ Ver detalle de contacto: se despliega la información completa del contacto
++ Compartir contactos:
+  - Un usuario A puede poner a disposición de otro usuario B su lista de contactos
+  - Para esto el usuario A primero solicita que quiere compartir su lista mediante el nombre del usuario B
+  - Por su parte, el usuario B puede ver la solicitud del usuario A y decidir si importa o no su lista de contactos
+  - De aceptar la solicitud, todos los usuarios de A se importan a la lista de usuarios de B, agregando al nombre del contacto una leyenda que indique que se importó del usuario A (por ejemplo: pepito (contacto de A))
+
+* Requisitos no funcionales
+** Tecnología
+- La solución utilizará una interfaz de línea de comandos
+- La implementación será en el lenguaje de programación Java
+- Para la persistencia de datos se deberá utilizar archivos de texto o binarios, se pueden usar tantos archivos como haga falta (por ejemplo uno por usuario)
+
+** Seguridad
+- Los datos almacenados no deben estar en texto plano:
+  + Se sugiere utilizar cifrado simétrico (AES por ejemplo), tomando
+    la contraseña del usuario del sistema como llave para descifrar
+    (se requerirá de algún algoritmo de expansión de contraseñas a
+    llaves)
+- Para el almacenamiento de contraseñas de usuarios, se debe utilizar
+  un hash (no guardar contraseñas en texto plano). El archivo de usuarios no necesita ser cifrado
+
+** Diseño
+- Se deberá seguir una arquitectura de tres capas (usar paquetes apropiadamente):
+  + Presentación (IU)
+  + Dominio (negocio)
+  + Persistencia (datos)
+
+* Documentación a entregar
+Se deben incluir los siguientes apartados:
+- Análisis: se describe el proyecto y sus funcionalidades esperadas,
+  así como el modelo de dominio
+- Diseño: se presenta el diagrama de paquetes (mostrando las tres
+  capas) y el diagrama de clases  
+
+
+* Evaluación
+- Requisitos funcionales: 40%
+  + Cumplimiento de requisitos establecidos
+  + Manejo de errores
+
+- Requisitos no funcionales: 20%
+  + Seguridad en el manejo de contraseñas y contactos
+  + Apego a la arquitectura de 3 capas
+    
+- Seguimiento de buenas prácticas: 10%
+  + Alta cohesión
+  + Seguimiento de estándar de codificación 
+  + Nombrado de identificadores
+
+- Documentación: 20%
+  + De acuerdo a apartados establecidos
+
+- Defensa: 10%
+  + Durante la evaluación el profesor realizará diversos cuestionamientos referentes a la solución desarrollada
+
+
+* Entrega
+- Se realizará los días de cierre de acta correspondiente (ordinario, extraordinario, título)
+- El profesor establecerá horarios de revisión presencial
+- Deberán demostrar la solución en funcionamiento
+- Todas las evidencias se deberás subir a Eminus en la actividad establecida 
+
