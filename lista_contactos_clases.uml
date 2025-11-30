@@ -1,0 +1,94 @@
+@startuml
+  package ui {
+    class Consola {
+      + main(args[] String)
+      + registrarUsuario(nombre : String , telefono : String , eMail : String)
+      + registrarContacto(nombre : String , telefono : String , eMail : String, url : String)
+      + login(usuario : String, password : String)
+      + verListaContactos()
+      + verDetallesContactos()
+      + CompartirContacto()
+    }
+
+  }
+
+  package contactos {
+    class Usuario {
+      - nombre : String
+      - usuario : String
+      - password : String
+      - eMail : String
+      - contactos : ListaContactos
+
+      + login(usuario : String, password : String)
+    }
+
+    class Contacto {
+      - nombre : String
+      - telefono : String
+      - eMail : String
+      - url : String
+
+      + registrar(nombre : String , telefono : String , eMail : String , url : String)
+      + verDetalles() : String
+    }
+
+    class ListaContactos {
+      - contactos : Contacto[]
+
+      + agregar(contacto : Contacto)
+      + ver()
+    }
+
+    class SolicitudExporta {
+      - receptor : Usuario
+      + crear()
+      + aceptar()
+      + declinar()
+    }
+
+    class ListaSolicitud {
+      solicitudes : SolicitudExporta
+      agregarSolicitud(solicitud : SolicitudExporta)
+    }
+
+    Usuario  -->  Contacto
+    Usuario "1" o-- "1" ListaContactos
+    Contacto "1" --o "*" ListaContactos
+    Usuario --> SolicitudExporta
+    SolicitudExporta "*" o-- "1" ListaSolicitud
+  }
+
+  package persistencia {
+
+    class ListaUsuarios {
+      + guardarUsuario(usuario : Usuario)
+      + cargarUsuarios() : Usuario[]
+    }
+
+    class ListaSolicitudes {
+      + guardarSolicitud(solicitud: SolicitudExporta)
+      + cargarSolicitudes() : Solicitud[]
+    }
+
+    class ListaContactos {
+      + guardarContacto(contacto : Contacto)
+      + cargarContactos() : Contacto[]
+    }
+
+    class Cifrador {
+      + cifrar(password : String, dato : String) : String
+      + decifrar(password : String, dato_cifrado : String) : String
+      + hashear(password : String) : String
+    }
+
+    Contacto --> ListaContactos
+    SolicitudExporta --> ListaSolicitudes
+    ListaUsuarios --> Cifrador
+    ListaSolicitudes --> Cifrador
+    ListaContactos --> Cifrador
+}
+
+    Consola --> Usuario
+    Usuario --> ListaUsuarios
+@enduml

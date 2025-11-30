@@ -1,0 +1,15 @@
+@startuml
+
+    class Usuario
+    class Contacto
+    class ListaContactos
+    class SolicitudExporta
+    class ListaSolicitud
+
+    Usuario "1" -- "*" Contacto : cr
+    Usuario "1" -- "1" ListaContactos : tiene/ver
+    Contacto "1" -- "*" ListaContactos : esta
+    Usuario "1" -- "*" SolicitudExporta : crear/aceptar/declinar
+    SolicitudExporta "*" -- "1" ListaSolicitud : tiene
+
+@enduml
