@@ -8,6 +8,9 @@
       + verListaContactos()
       + verDetallesContactos()
       + CompartirContacto()
+      + verSolicitudes()
+      + AceptarSolicitud()
+      + RechazarSolicitud()
     }
 
   }
@@ -20,7 +23,7 @@
       - eMail : String
       - contactos : ListaContactos
 
-      + login(usuario : String, password : String)
+      + logIn(usuario : String, password : String)
     }
 
     class Contacto {
@@ -29,7 +32,7 @@
       - eMail : String
       - url : String
 
-      + registrar(nombre : String , telefono : String , eMail : String , url : String)
+      + registrar()
       + verDetalles() : String
     }
 
@@ -41,6 +44,7 @@
     }
 
     class SolicitudExporta {
+      - solicitante : Usuario
       - receptor : Usuario
       + crear()
       + aceptar()
@@ -48,15 +52,16 @@
     }
 
     class ListaSolicitud {
-      solicitudes : SolicitudExporta
+      - solicitudes : SolicitudExporta[]
       agregarSolicitud(solicitud : SolicitudExporta)
+      verSolicitudes(usuario : Usuario) : String
     }
 
     Usuario  -->  Contacto
     Usuario "1" o-- "1" ListaContactos
     Contacto "1" --o "*" ListaContactos
     Usuario --> SolicitudExporta
-    SolicitudExporta "*" o-- "1" ListaSolicitud
+    SolicitudExporta "*" --o "1" ListaSolicitud
   }
 
   package persistencia {
