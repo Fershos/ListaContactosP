@@ -2,8 +2,8 @@
   package ui {
     class Consola {
       + main(args[] String)
-      + registrarUsuario(nombre : String , telefono : String , eMail : String)
-      + registrarContacto(nombre : String , telefono : String , eMail : String, url : String)
+      + registrarUsuario()
+      + registrarContacto()
       + login(usuario : String, password : String)
       + verListaContactos()
       + verDetallesContactos()
@@ -21,9 +21,14 @@
       - usuario : String
       - password : String
       - eMail : String
-      - contactos : ListaContactos
+      - contactos : Contacto[]
+      - solicidutes : Solictud[]
 
       + logIn(usuario : String, password : String)
+      + agregarContacto(contacto : Contacto) : boolean
+      + verListaContactos()
+      + agregarSolicitud(solicitud : SolicitudImporte)
+      + verSolicitudes() : String
     }
 
     class Contacto {
@@ -36,49 +41,26 @@
       + verDetalles() : String
     }
 
-    class ListaContactos {
-      - contactos : Contacto[]
-
-      + agregar(contacto : Contacto)
-      + ver()
-    }
-
-    class SolicitudExporta {
+    class SolicitudImporte {
       - solicitante : Usuario
-      - receptor : Usuario
       + crear()
       + aceptar()
       + declinar()
     }
 
-    class ListaSolicitud {
-      - solicitudes : SolicitudExporta[]
-      agregarSolicitud(solicitud : SolicitudExporta)
-      verSolicitudes(usuario : Usuario) : String
-    }
-
     Usuario  -->  Contacto
-    Usuario "1" o-- "1" ListaContactos
-    Contacto "1" --o "*" ListaContactos
-    Usuario --> SolicitudExporta
-    SolicitudExporta "*" --o "1" ListaSolicitud
+    Usuario  -->  SolicitudImporte
+    Usuario "1" *-- "*" Contacto
+    Usuario "1" *-- "*" SolicitudImporte
   }
 
   package persistencia {
 
-    class ListaUsuarios {
+    class AlmacenUsuarios {
+      - usuarios : Usuario[]
+
       + guardarUsuario(usuario : Usuario)
       + cargarUsuarios() : Usuario[]
-    }
-
-    class ListaSolicitudes {
-      + guardarSolicitud(solicitud: SolicitudExporta)
-      + cargarSolicitudes() : Solicitud[]
-    }
-
-    class ListaContactos {
-      + guardarContacto(contacto : Contacto)
-      + cargarContactos() : Contacto[]
     }
 
     class Cifrador {
@@ -87,13 +69,10 @@
       + hashear(password : String) : String
     }
 
-    Contacto --> ListaContactos
-    SolicitudExporta --> ListaSolicitudes
-    ListaUsuarios --> Cifrador
-    ListaSolicitudes --> Cifrador
-    ListaContactos --> Cifrador
+    AlmacenUsuarios --> Cifrador
 }
 
     Consola --> Usuario
-    Usuario --> ListaUsuarios
+    Usuario --> Cifrador
+    Usuario --> AlmacenUsuarios
 @enduml

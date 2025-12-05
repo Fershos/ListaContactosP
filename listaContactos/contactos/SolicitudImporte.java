@@ -1,12 +1,10 @@
 package listaContactos.contactos;
 
-public class SolicitudExporta {
+public class SolicitudImporte {
   private Usuario solicitante;
-  private Usuario receptor;
 
-  public SolicitudExporta(Usuario solicitante, Usuario receptor) {
+  public SolicitudImporte(Usuario solicitante) {
     this.solicitante = solicitante;
-    this.receptor = receptor;
   }
 
   public void crear() {

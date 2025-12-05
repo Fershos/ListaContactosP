@@ -2,21 +2,23 @@ package listaContactos.contactos;
 
 import java.util.LinkedList;
 import listaContactos.persistencia.Cifrador;
-import listaContactos.persistencia.ListaUsuarios;
+import listaContactos.persistencia.AlmacenUsuarios;
 
 public class Usuario {
   private String nombre;
   private String usuario;
   private String password;
   private String eMail;
-  private ListaContactos contactos;
+  private LinkedList<Contacto> contactos;
+  private LinkedList<SolicitudImporte> solicitudes;
 
   public Usuario(String nombre, String usuario, String password, String eMail) {
     this.nombre = nombre;
     this.usuario = usuario;
     this.password = Cifrador.hashear(password);
     this.eMail = eMail;
-    this.contactos = new ListaContactos();
+    this.contactos = new LinkedList<>();
+    this.solicitudes = new LinkedList<>();
   }
 
   public void registrar() {
@@ -32,11 +34,11 @@ public class Usuario {
   }
 
   public LinkedList<Contacto> getListaContactos() {
-    return this.contactos.getContactos();
+    return this.contactos;
   }
 
   public static LinkedList<Usuario> getUsuarios() {
-    return ListaUsuarios.getUsuarios();
+    return AlmacenUsuarios.getUsuarios();
   }
 
   public static Usuario logIn(String usuario, String password) {
@@ -52,7 +54,16 @@ public class Usuario {
   }
 
   public void registrarContacto(Contacto contacto) {
-    this.contactos.agregarContacto(contacto);
+    // TODO Validar que no exista el usuario
+    this.contactos.push(contacto);
+  }
+
+  public void agregarSolicitud(SolicitudImporte solicitud) {
+    this.solicitudes.push(solicitud);
+  }
+
+  public void eliminarSolicitud(Usuario solicitante) {
+    // TODO Implementar esta
   }
 
   public static Usuario getUsuarioByUser(String user) {

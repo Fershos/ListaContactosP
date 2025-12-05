@@ -3,8 +3,7 @@ package listaContactos.ui;
 import java.util.Scanner;
 
 import listaContactos.contactos.Contacto;
-import listaContactos.contactos.ListaSolicitud;
-import listaContactos.contactos.SolicitudExporta;
+import listaContactos.contactos.SolicitudImporte;
 import listaContactos.contactos.Usuario;
 
 public class Consola {
@@ -138,8 +137,7 @@ public class Consola {
       System.out.println("Usuario no encontrado\n");
       return;
     }
-    ListaSolicitud.agregarSolicitud(new SolicitudExporta(solicitante,
-                                                         receptor));
+    receptor.agregarSolicitud(new SolicitudImporte(solicitante));
   }
 
   public static void aceptarSolicitud(Usuario usuario, Scanner sc) {
@@ -152,6 +150,7 @@ public class Consola {
       System.out.println("Usuario no valido");
       return;
     }
+
     for(Contacto contacto : solicitante.getListaContactos()) {
       usuario.registrarContacto(new Contacto(contacto.getNombre() + "(" + usuario.getUsuario() + ")",
                                             contacto.getTelefono(),
@@ -159,7 +158,7 @@ public class Consola {
                                             contacto.getUrl()));
     }
 
-    ListaSolicitud.eliminarSolicitud(solicitante, usuario);
+    usuario.eliminarSolicitud(solicitante);
   }
 
   public static void declinarSolicitud(Usuario usuario, Scanner sc) {
@@ -172,7 +171,8 @@ public class Consola {
       System.out.println("Usuario no valido");
       return;
     }
-    ListaSolicitud.eliminarSolicitud(solicitante, usuario);
+
+    usuario.eliminarSolicitud(solicitante);
   }
 
   private static void guardarDatos() {
