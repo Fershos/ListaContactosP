@@ -35,11 +35,11 @@ public class Contacto {
 
   @Override
   public String toString() {
-    // TODO Implementarla
-    return "";
-  }
+      String res = "Contacto: " + "\n" + this.nombre + "\n";
+      res += "Telefono: " + this.telefono + "\n";
+      res += "Email: " + this.eMail + "\n";
+      res += "URL: " + this.url + "\n\n";
+      return res;
 
-  public void registrar() {
-    // TODO Hacer la implementacion
   }
 }

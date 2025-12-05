@@ -7,7 +7,4 @@ public class SolicitudImporte {
     this.solicitante = solicitante;
   }
 
-  public void crear() {
-    // TODO Hacer la implementacion
-  }
 }

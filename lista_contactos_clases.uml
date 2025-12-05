@@ -37,13 +37,11 @@
       - eMail : String
       - url : String
 
-      + registrar()
       + verDetalles() : String
     }
 
     class SolicitudImporte {
       - solicitante : Usuario
-      + crear()
       + aceptar()
       + declinar()
     }
