@@ -103,12 +103,18 @@ public class Consola {
     System.out.print("Ingresa el URL(opcional): ");
     String url = sc.nextLine();
 
-    usuario.registrarContacto(new Contacto(nombre, telefono, eMail, url));
+    if(usuario.registrarContacto(new Contacto(nombre, telefono, eMail, url))){
+
+        usuario.registrarContacto(new Contacto(nombre, telefono, eMail, url));
+        System.out.println("Contacto registrado exitosamente.\n");
+    }else {
+        System.out.println("Nombre del contacto ocupado.\n");
+    }
   }
 
   public static void verContactos(Usuario user) {
     System.out.println("Lista de contactos:");
-    // NOTE La lista de contactos debe ser una clase??
+
     for(Contacto contacto : user.getListaContactos()){
       System.out.println(contacto.getNombre());
     }
@@ -119,7 +125,14 @@ public class Consola {
     System.out.print("Ingresa el nombre:");
     String nombre = sc.nextLine();
     Contacto contacto = user.getContactoByNombre(nombre);
-    System.out.println(contacto.verDetalles());
+
+    if (contacto != null) {
+
+        System.out.println("Contacto encontrado: " + contacto.verDetalles());
+    }else  {
+      System.out.println("Contacto no encontrado\n");
+    }
+
   }
 
   public static void crearSolicitudExportarContacto(Usuario solicitante, Scanner sc) {

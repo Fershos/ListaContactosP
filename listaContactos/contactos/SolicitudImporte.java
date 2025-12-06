@@ -7,4 +7,7 @@ public class SolicitudImporte {
     this.solicitante = solicitante;
   }
 
+  public void aceptar(){}
+
+    public void declinar(){}
 }

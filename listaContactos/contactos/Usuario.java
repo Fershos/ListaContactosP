@@ -50,12 +50,36 @@ public class Usuario {
   }
 
   public Contacto getContactoByNombre(String nombre) {
-    return new Contacto(null, null, null, null);
+
+      for(Contacto contacto : this.contactos){
+          if(contacto.getNombre().equals(nombre)){
+
+              return contacto;
+          }
+      }
+      return new Contacto(null, null, null, null);
   }
 
-  public void registrarContacto(Contacto contacto) {
-    // TODO Validar que no exista el usuario
-    this.contactos.push(contacto);
+  public boolean comprobarNombre(Contacto contacto) {
+
+      for(Contacto cont : contactos){
+
+          if(cont.getNombre().equals(contacto.getNombre())){
+
+              return true;
+          }
+      }
+      return false;
+  }
+  public boolean registrarContacto(Contacto contacto) {
+
+        if(comprobarNombre(contacto)) {
+
+            return false;
+        }
+
+      this.contactos.push(contacto);
+        return true;
   }
 
   public void agregarSolicitud(SolicitudImporte solicitud) {
