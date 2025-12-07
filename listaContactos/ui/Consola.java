@@ -86,10 +86,11 @@ public class Consola {
     System.out.println("1)\tRegistrar Contacto");
     System.out.println("2)\tVer Contactos");
     System.out.println("3)\tVer detalles de un contacto");
-    System.out.println("4)\tCrear solicitud de exportar contactos");
-    System.out.println("5)\tVer solicitudes");
-    System.out.println("6)\tAceptar solicitud");
-    System.out.println("7)\tRechazar solicitud");
+    System.out.println("4\tVer usuarios disponibles para enviar solicitud de exportacion de contactos");
+    System.out.println("5)\tCrear solicitud de exportar contactos");
+    System.out.println("6)\tVer solicitudes");
+    System.out.println("7)\tAceptar solicitud");
+    System.out.println("8)\tRechazar solicitud");
     System.out.print("Por favor ingresa una opcion: ");
   }
 
@@ -132,13 +133,13 @@ public class Consola {
 
   }
 
-  public static void crearSolicitudExportarContacto(Usuario solicitante, Scanner sc) {
-    // NOTE Esto deberia estar en otro metodo, tal vez ser una opcion
-    System.out.println("Usuarios diponibles para asignar la solicitud");
+  public static void verUsuariosDisponiblesSolicitud() {
+    System.out.println("Usuarios disponibles para asigna la solicitud");
     for(Usuario usuario : Usuario.getUsuarios()) {
       System.out.println(usuario.getUsuario());
-    }
+  }
 
+  public static void crearSolicitudExportarContacto(Usuario solicitante, Scanner sc) {
     System.out.print("Elige el usuario: ");
     String res = sc.nextLine();
     Usuario receptor = Usuario.getUsuarioByUser(res);
