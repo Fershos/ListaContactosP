@@ -137,6 +137,7 @@ public class Consola {
     System.out.println("Usuarios disponibles para asigna la solicitud");
     for(Usuario usuario : Usuario.getUsuarios()) {
       System.out.println(usuario.getUsuario());
+    }
   }
 
   public static void crearSolicitudExportarContacto(Usuario solicitante, Scanner sc) {
