@@ -7,12 +7,13 @@ import listaContactos.contactos.SolicitudImporte;
 import listaContactos.contactos.Usuario;
 
 public class Consola {
-  static final int SALIR = 3;
+  static final int SALIR_PRINCIPAL = 3;
+  static final int SALIR_USUARIO = 9;
 
   public static void main(String args[]) {
     int opt = 0;
     Scanner sc = new Scanner(System.in);
-    while(opt != SALIR) {
+    while(opt != SALIR_PRINCIPAL) {
       imprimirMenuPrincipal();
       opt = seleccionarOpcionPrincipal(sc);
     }
@@ -39,7 +40,7 @@ public class Consola {
         ingresarComoUsuario(sc);
         break;
 
-      case SALIR:
+      case SALIR_PRINCIPAL:
         System.out.println("Hasta la proxima...");
         guardarDatos();
         break;
@@ -77,7 +78,11 @@ public class Consola {
       System.out.println("Usuario o contrasenia no validos\n");
       return;
     }
-    menuUsuario(user, sc);
+    int opt = 0;
+    while(opt != SALIR_USUARIO) {
+      menuUsuario(user, sc);
+      opt = seleccionarOpcionUsuario(user, sc);
+    }
   }
 
   private static void menuUsuario(Usuario user, Scanner sc) {
@@ -91,7 +96,57 @@ public class Consola {
     System.out.println("6)\tVer solicitudes");
     System.out.println("7)\tAceptar solicitud");
     System.out.println("8)\tRechazar solicitud");
+    System.out.println("9)\tSalir");
     System.out.print("Por favor ingresa una opcion: ");
+  }
+
+  private static int seleccionarOpcionUsuario(Usuario usuario, Scanner sc) {
+    // TODO validar que lo que se meta es un entero
+    int opt = sc.nextInt();
+    sc.nextLine();
+    switch(opt) {
+      case 1:
+        registrarContacto(usuario, sc);
+        break;
+
+      case 2:
+        verContactos(usuario);
+        break;
+
+      case 3:
+        verDetallesContacto(usuario, sc);
+        break;
+
+      case 4:
+        verUsuariosDisponiblesSolicitud();
+        break;
+
+      case 5:
+        crearSolicitudExportarContacto(usuario, sc);
+        break;
+
+      case 6:
+        verSolicitudes(usuario);
+        break;
+
+      case 7:
+        aceptarSolicitud(usuario, sc);
+        break;
+
+      case 8:
+        declinarSolicitud(usuario, sc);
+        break;
+
+      case SALIR_USUARIO:
+        System.out.println("Hasta la proxima...");
+        guardarDatos();
+        break;
+
+      default:
+        System.out.println("Opcion no valida\n");
+        break;
+    }
+    return opt;
   }
 
   public static void registrarContacto(Usuario usuario, Scanner sc) {
@@ -138,6 +193,13 @@ public class Consola {
     for(Usuario usuario : Usuario.getUsuarios()) {
       System.out.println(usuario.getUsuario());
     }
+  }
+
+  public static void verSolicitudes(Usuario usuario) {
+      System.out.println("Solicitudes disponibles: \n");
+      for(SolicitudImporte solicitud : usuario.getSolicitudes()) {
+        System.out.println(solicitud.getUsuarioSolicitante());
+      }
   }
 
   public static void crearSolicitudExportarContacto(Usuario solicitante, Scanner sc) {

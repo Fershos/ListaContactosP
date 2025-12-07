@@ -1,6 +1,8 @@
 package listaContactos.contactos;
 
-public class Contacto {
+import java.io.Serializable;
+
+public class Contacto implements Serializable{
   private String nombre;
   private String telefono;
   private String eMail;
@@ -35,13 +37,12 @@ public class Contacto {
 
   public boolean esValido() {
     boolean b = false;
-
     try {
       b = this.nombre.isBlank();
     } catch(Exception e) {
-      b = false;
+      b = true;
     }
-    return b;
+    return !b;
   }
 
   @Override

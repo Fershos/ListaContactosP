@@ -1,6 +1,8 @@
 package listaContactos.contactos;
 
-public class SolicitudImporte {
+import java.io.Serializable;
+
+public class SolicitudImporte implements Serializable {
   private Usuario solicitante;
 
   public SolicitudImporte(Usuario solicitante) {
@@ -18,5 +20,11 @@ public class SolicitudImporte {
     usuario.eliminarSolicitud(solicitante);
   }
 
-    public void declinar(){}
+  public String getUsuarioSolicitante() {
+    return solicitante.getUsuario();
+  }
+
+  public void declinar(Usuario usuario) {
+    usuario.eliminarSolicitud(solicitante);
+  }
 }

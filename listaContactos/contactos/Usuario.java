@@ -1,10 +1,11 @@
 package listaContactos.contactos;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import listaContactos.persistencia.Cifrador;
 import listaContactos.persistencia.AlmacenUsuarios;
 
-public class Usuario {
+public class Usuario implements Serializable {
   private String nombre;
   private String usuario;
   private String password;
@@ -82,18 +83,22 @@ public class Usuario {
   }
 
   public boolean esValido() {
-    boolean b = true;
+    boolean b = false;
     try {
       b = this.usuario.isBlank();
     } catch(Exception e) {
-      b = false;
+      b = true;
     }
-    return b;
+    return !b;
+  }
+
+  public LinkedList<SolicitudImporte> getSolicitudes() {
+    return solicitudes;
   }
 
   public void aceptarSolicitud(Usuario solicitante) {
     for(Contacto contacto : solicitante.getListaContactos()) {
-      registrarContacto(new Contacto(contacto.getNombre() + "(" + this.usuario + ")",
+      registrarContacto(new Contacto(contacto.getNombre() + "(" + solicitante.getUsuario() + ")",
                                             contacto.getTelefono(),
                                             contacto.getEMail(),
                                             contacto.getUrl()));
