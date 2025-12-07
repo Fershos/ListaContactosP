@@ -33,6 +33,17 @@ public class Contacto {
     return this.toString();
   }
 
+  public boolean esValido() {
+    boolean b = false;
+
+    try {
+      b = this.nombre.isBlank();
+    } catch(Exception e) {
+      b = false;
+    }
+    return b;
+  }
+
   @Override
   public String toString() {
       String res = "Contacto: " + "\n" + this.nombre + "\n";

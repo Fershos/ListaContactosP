@@ -22,7 +22,7 @@ public class Usuario {
   }
 
   public void registrar() {
-
+    AlmacenUsuarios.guardarUsuario(this);
   }
 
   public String getUsuario() {
@@ -50,35 +50,30 @@ public class Usuario {
   }
 
   public Contacto getContactoByNombre(String nombre) {
-
       for(Contacto contacto : this.contactos){
+        // TODO Hacer pruebas para saber si crashea
           if(contacto.getNombre().equals(nombre)){
-
               return contacto;
           }
       }
       return new Contacto(null, null, null, null);
   }
 
-  public boolean comprobarNombre(Contacto contacto) {
-
+  public boolean contactoExiste(Contacto contacto) {
       for(Contacto cont : contactos){
-
+        // TODO Hacer pruebas para saber si crashea
           if(cont.getNombre().equals(contacto.getNombre())){
-
               return true;
           }
       }
       return false;
   }
   public boolean registrarContacto(Contacto contacto) {
-
-        if(comprobarNombre(contacto)) {
-
+        if(contactoExiste(contacto)) {
             return false;
         }
 
-      this.contactos.push(contacto);
+        this.contactos.push(contacto);
         return true;
   }
 
@@ -86,12 +81,42 @@ public class Usuario {
     this.solicitudes.push(solicitud);
   }
 
+  public boolean esValido() {
+    boolean b = true;
+    try {
+      b = this.usuario.isBlank();
+    } catch(Exception e) {
+      b = false;
+    }
+    return b;
+  }
+
+  public void aceptarSolicitud(Usuario solicitante) {
+    for(Contacto contacto : solicitante.getListaContactos()) {
+      registrarContacto(new Contacto(contacto.getNombre() + "(" + this.usuario + ")",
+                                            contacto.getTelefono(),
+                                            contacto.getEMail(),
+                                            contacto.getUrl()));
+    }
+
+    eliminarSolicitud(solicitante);
+  }
+
   public void eliminarSolicitud(Usuario solicitante) {
     // TODO Implementar esta
   }
 
   public static Usuario getUsuarioByUser(String user) {
-    // TODO Implementar esto
+      for(Usuario usuario : AlmacenUsuarios.getUsuarios()){
+        // TODO Hacer pruebas para saber si crashea
+          if(usuario.usuario.equals(user)){
+              return usuario;
+          }
+      }
     return new Usuario(user, user, user, user);
+  }
+
+  public static void respaldarListaUsuarios() {
+    AlmacenUsuarios.respaldarUsuarios();
   }
 }

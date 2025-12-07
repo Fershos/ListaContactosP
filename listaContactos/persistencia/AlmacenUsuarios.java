@@ -9,4 +9,12 @@ public class AlmacenUsuarios {
   public static LinkedList<Usuario> getUsuarios() {
     return usuarios;
   }
+
+  public static void guardarUsuario(Usuario usuario) {
+    usuarios.push(usuario);
+  }
+
+  public static void respaldarUsuarios() {
+    // TODO Implementar
+  }
 }

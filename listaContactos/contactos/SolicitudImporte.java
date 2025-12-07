@@ -7,7 +7,16 @@ public class SolicitudImporte {
     this.solicitante = solicitante;
   }
 
-  public void aceptar(){}
+  public void aceptar(Usuario usuario){
+    for(Contacto contacto : solicitante.getListaContactos()) {
+      usuario.registrarContacto(new Contacto(contacto.getNombre() + "(" + usuario.getUsuario() + ")",
+                                            contacto.getTelefono(),
+                                            contacto.getEMail(),
+                                            contacto.getUrl()));
+    }
+
+    usuario.eliminarSolicitud(solicitante);
+  }
 
     public void declinar(){}
 }

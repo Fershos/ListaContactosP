@@ -27,6 +27,7 @@ public class Consola {
   }
 
   private static int seleccionarOpcionPrincipal(Scanner sc) {
+    // TODO validar que lo que se meta es un entero
     int opt = sc.nextInt();
     sc.nextLine();
     switch(opt) {
@@ -72,7 +73,7 @@ public class Consola {
     System.out.print("Ingresa el password: ");
     String password = sc.nextLine();
     Usuario user = Usuario.logIn(usuario, password);
-    if(user.getUsuario().isBlank()) {
+    if(!user.esValido()) {
       System.out.println("Usuario o contrasenia no validos\n");
       return;
     }
@@ -103,21 +104,17 @@ public class Consola {
     System.out.print("Ingresa el URL(opcional): ");
     String url = sc.nextLine();
 
-    if(usuario.registrarContacto(new Contacto(nombre, telefono, eMail, url))){
-
-        usuario.registrarContacto(new Contacto(nombre, telefono, eMail, url));
+    if(usuario.registrarContacto(new Contacto(nombre, telefono, eMail, url)))
         System.out.println("Contacto registrado exitosamente.\n");
-    }else {
+    else
         System.out.println("Nombre del contacto ocupado.\n");
-    }
   }
 
   public static void verContactos(Usuario user) {
     System.out.println("Lista de contactos:");
 
-    for(Contacto contacto : user.getListaContactos()){
+    for(Contacto contacto : user.getListaContactos())
       System.out.println(contacto.getNombre());
-    }
   }
 
   public static void verDetallesContacto(Usuario user, Scanner sc) {
@@ -126,12 +123,12 @@ public class Consola {
     String nombre = sc.nextLine();
     Contacto contacto = user.getContactoByNombre(nombre);
 
-    if (contacto != null) {
-
-        System.out.println("Contacto encontrado: " + contacto.verDetalles());
-    }else  {
+    if (!contacto.esValido()) {
       System.out.println("Contacto no encontrado\n");
+      return;
     }
+
+    System.out.println("Contacto encontrado: " + contacto.verDetalles());
 
   }
 
@@ -145,8 +142,7 @@ public class Consola {
     System.out.print("Elige el usuario: ");
     String res = sc.nextLine();
     Usuario receptor = Usuario.getUsuarioByUser(res);
-    // TODO Esto deberia ser un metodo
-    if(receptor.getUsuario().isBlank()) {
+    if(!receptor.esValido()) {
       System.out.println("Usuario no encontrado\n");
       return;
     }
@@ -158,20 +154,12 @@ public class Consola {
     System.out.print("Ingresa el usuario: ");
     String user = sc.nextLine();
     Usuario solicitante = Usuario.getUsuarioByUser(user);
-    // TODO Esto deberia ser un metodo
-    if(solicitante.getUsuario().isBlank()) {
+    if(!solicitante.esValido()) {
       System.out.println("Usuario no valido");
       return;
     }
-
-    for(Contacto contacto : solicitante.getListaContactos()) {
-      usuario.registrarContacto(new Contacto(contacto.getNombre() + "(" + usuario.getUsuario() + ")",
-                                            contacto.getTelefono(),
-                                            contacto.getEMail(),
-                                            contacto.getUrl()));
-    }
-
-    usuario.eliminarSolicitud(solicitante);
+    // TODO meterlo al diagrama
+    usuario.aceptarSolicitud(solicitante);
   }
 
   public static void declinarSolicitud(Usuario usuario, Scanner sc) {
@@ -179,8 +167,7 @@ public class Consola {
     System.out.print("Ingresa el usuario: ");
     String user = sc.nextLine();
     Usuario solicitante = Usuario.getUsuarioByUser(user);
-    // TODO Esto deberia ser un metodo
-    if(solicitante.getUsuario().isBlank()) {
+    if(!solicitante.esValido()) {
       System.out.println("Usuario no valido");
       return;
     }
@@ -189,6 +176,6 @@ public class Consola {
   }
 
   private static void guardarDatos() {
-
+    Usuario.respaldarListaUsuarios();
   }
 }
