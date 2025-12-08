@@ -20,6 +20,20 @@ public class Consola {
     }
   }
 
+  private static int validarEntradaEntero(Scanner sc) {
+	  while (true) {
+		  try {
+			  int opcion = sc.nextInt();
+			  sc.nextLine();
+			  return opcion;
+		  } catch (Exception e) {
+			  System.out.println("ERROR: Debes ingresar un numero");
+			  System.out.print("Por favor ingresa una opcion: ");
+			  sc.nextLine();
+			}
+	  }
+  }
+
   private static void imprimirMenuPrincipal() {
     System.out.println("Bienvenido al Sistema de Contactos\n");
     System.out.println("1)\tRegistrarse");
@@ -29,9 +43,7 @@ public class Consola {
   }
 
   private static int seleccionarOpcionPrincipal(Scanner sc) {
-    // TODO validar que lo que se meta es un entero
-    int opt = sc.nextInt();
-    sc.nextLine();
+    int opt = validarEntradaEntero(sc); 
     switch(opt) {
       case 1:
         registrarUsuario(sc);
@@ -102,9 +114,7 @@ public class Consola {
   }
 
   private static int seleccionarOpcionUsuario(Usuario usuario, Scanner sc) {
-    // TODO validar que lo que se meta es un entero
-    int opt = sc.nextInt();
-    sc.nextLine();
+    int opt = validarEntradaEntero(sc);
     switch(opt) {
       case 1:
         registrarContacto(usuario, sc);
