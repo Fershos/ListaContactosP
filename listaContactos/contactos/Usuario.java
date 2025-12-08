@@ -8,7 +8,7 @@ import listaContactos.persistencia.AlmacenUsuarios;
 public class Usuario implements Serializable {
   private String nombre;
   private String usuario;
-  private String password;
+  private byte[] password;
   private String eMail;
   private LinkedList<Contacto> contactos;
   private LinkedList<SolicitudImporte> solicitudes;
@@ -22,6 +22,15 @@ public class Usuario implements Serializable {
     this.solicitudes = new LinkedList<>();
   }
 
+  public Usuario(String nombre, String usuario, byte[] password, String eMail) {
+    this.nombre = nombre;
+    this.usuario = usuario;
+    this.password = password;
+    this.eMail = eMail;
+    this.contactos = new LinkedList<>();
+    this.solicitudes = new LinkedList<>();
+  }
+
   public void registrar() {
     AlmacenUsuarios.guardarUsuario(this);
   }
@@ -30,8 +39,16 @@ public class Usuario implements Serializable {
     return this.usuario;
   }
 
-  public String getPassword() {
-    return this.usuario;
+  public String getNombre() {
+    return this.nombre;
+  }
+
+  public byte[] getPassword() {
+    return this.password;
+  }
+
+  public String getEMail() {
+    return this.eMail;
   }
 
   public LinkedList<Contacto> getListaContactos() {
@@ -43,11 +60,12 @@ public class Usuario implements Serializable {
   }
 
   public static Usuario logIn(String usuario, String password) {
+    byte[] pass = Cifrador.hashear(password);
     for(Usuario u : Usuario.getUsuarios())
-      if(u.getUsuario().equals(usuario) && u.getPassword().equals(Cifrador.hashear(password)))
+      if(u.usuario.equals(usuario) && Cifrador.sonMismoHash(u.getPassword(), pass))
         return u;
 
-    return new Usuario(null, null, null, null);
+    return new Usuario(null, null, "", null);
   }
 
   public Contacto getContactoByNombre(String nombre) {
@@ -104,24 +122,30 @@ public class Usuario implements Serializable {
                                             contacto.getUrl()));
     }
 
-    eliminarSolicitud(solicitante);
+    eliminarSolicitud(solicitante.getUsuario());
   }
 
-  public void eliminarSolicitud(Usuario solicitante) {
-    // TODO Implementar esta
+  public void eliminarSolicitud(String solicitante) {
+    // TODO Hacer pruebas
+    for(SolicitudImporte solicitud : solicitudes)
+      if(solicitud.getUsuarioSolicitante().equals(solicitante))
+        solicitudes.remove(solicitud);
   }
 
   public static Usuario getUsuarioByUser(String user) {
-      for(Usuario usuario : AlmacenUsuarios.getUsuarios()){
+      for(Usuario usuario : AlmacenUsuarios.getUsuarios())
         // TODO Hacer pruebas para saber si crashea
-          if(usuario.usuario.equals(user)){
+          if(usuario.usuario.equals(user))
               return usuario;
-          }
-      }
+
     return new Usuario(user, user, user, user);
   }
 
-  public static void respaldarListaUsuarios() {
-    AlmacenUsuarios.respaldarUsuarios();
+  public static String respaldarListaUsuarios() {
+    return AlmacenUsuarios.respaldarUsuarios();
+  }
+
+  public static String cargarListaUsuarios() {
+    return AlmacenUsuarios.cargarUsuarios();
   }
 }

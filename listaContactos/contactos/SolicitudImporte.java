@@ -3,14 +3,14 @@ package listaContactos.contactos;
 import java.io.Serializable;
 
 public class SolicitudImporte implements Serializable {
-  private Usuario solicitante;
+  private String solicitante;
 
-  public SolicitudImporte(Usuario solicitante) {
+  public SolicitudImporte(String solicitante) {
     this.solicitante = solicitante;
   }
 
   public void aceptar(Usuario usuario){
-    for(Contacto contacto : solicitante.getListaContactos()) {
+    for(Contacto contacto : Usuario.getUsuarioByUser(solicitante).getListaContactos()) {
       usuario.registrarContacto(new Contacto(contacto.getNombre() + "(" + usuario.getUsuario() + ")",
                                             contacto.getTelefono(),
                                             contacto.getEMail(),
@@ -21,7 +21,7 @@ public class SolicitudImporte implements Serializable {
   }
 
   public String getUsuarioSolicitante() {
-    return solicitante.getUsuario();
+    return solicitante;
   }
 
   public void declinar(Usuario usuario) {

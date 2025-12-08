@@ -13,6 +13,7 @@ public class Consola {
   public static void main(String args[]) {
     int opt = 0;
     Scanner sc = new Scanner(System.in);
+    System.out.println(Usuario.cargarListaUsuarios());
     while(opt != SALIR_PRINCIPAL) {
       imprimirMenuPrincipal();
       opt = seleccionarOpcionPrincipal(sc);
@@ -91,7 +92,7 @@ public class Consola {
     System.out.println("1)\tRegistrar Contacto");
     System.out.println("2)\tVer Contactos");
     System.out.println("3)\tVer detalles de un contacto");
-    System.out.println("4\tVer usuarios disponibles para enviar solicitud de exportacion de contactos");
+    System.out.println("4)\tVer usuarios disponibles para enviar solicitud de exportacion de contactos");
     System.out.println("5)\tCrear solicitud de exportar contactos");
     System.out.println("6)\tVer solicitudes");
     System.out.println("7)\tAceptar solicitud");
@@ -118,7 +119,7 @@ public class Consola {
         break;
 
       case 4:
-        verUsuariosDisponiblesSolicitud();
+        verUsuariosDisponiblesSolicitud(usuario);
         break;
 
       case 5:
@@ -139,7 +140,6 @@ public class Consola {
 
       case SALIR_USUARIO:
         System.out.println("Hasta la proxima...");
-        guardarDatos();
         break;
 
       default:
@@ -184,14 +184,15 @@ public class Consola {
       return;
     }
 
-    System.out.println("Contacto encontrado: " + contacto.verDetalles());
+    System.out.println("Contacto encontrado: \n" + contacto.verDetalles());
 
   }
 
-  public static void verUsuariosDisponiblesSolicitud() {
+  public static void verUsuariosDisponiblesSolicitud(Usuario user) {
     System.out.println("Usuarios disponibles para asigna la solicitud");
     for(Usuario usuario : Usuario.getUsuarios()) {
-      System.out.println(usuario.getUsuario());
+      if(!usuario.getUsuario().equals(user.getUsuario()))
+        System.out.println(usuario.getUsuario());
     }
   }
 
@@ -210,7 +211,7 @@ public class Consola {
       System.out.println("Usuario no encontrado\n");
       return;
     }
-    receptor.agregarSolicitud(new SolicitudImporte(solicitante));
+    receptor.agregarSolicitud(new SolicitudImporte(solicitante.getUsuario()));
   }
 
   public static void aceptarSolicitud(Usuario usuario, Scanner sc) {
@@ -236,7 +237,7 @@ public class Consola {
       return;
     }
 
-    usuario.eliminarSolicitud(solicitante);
+    usuario.eliminarSolicitud(solicitante.getUsuario());
   }
 
   private static void guardarDatos() {
