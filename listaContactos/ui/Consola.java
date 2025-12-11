@@ -76,8 +76,14 @@ public class Consola {
     System.out.print("Ingresa el eMail: ");
     String eMail = sc.nextLine();
 
-    Usuario user = new Usuario(nombre, usuario, password, eMail);
-    user.registrar();
+    if(camposRegistroValidos(nombre, usuario, password, eMail)){
+      Usuario user = new Usuario(nombre, usuario, password, eMail);
+      user.registrar();
+      System.out.println("\nRegistro Exitoso\n");
+    }else{
+      System.out.println("\nRegistro incompleto, todos los campos deben llenarse\n");
+    }
+
   }
 
   public static void ingresarComoUsuario(Scanner sc) {
@@ -87,18 +93,18 @@ public class Consola {
     System.out.print("Ingresa el password: ");
     String password = sc.nextLine();
     Usuario user = Usuario.logIn(usuario, password);
-    if(!user.esValido()) {
-      System.out.println("Usuario o contrasenia no validos\n");
+    if(user == null || !user.esValido()) {
+      System.out.println("\n !!!Usuario o contrasenia no validos¡¡¡\n");
       return;
     }
     int opt = 0;
     while(opt != SALIR_USUARIO) {
-      menuUsuario(user, sc);
+      menuUsuario(user);
       opt = seleccionarOpcionUsuario(user, sc);
     }
   }
 
-  private static void menuUsuario(Usuario user, Scanner sc) {
+  private static void menuUsuario(Usuario user) {
     System.out.println("Bienvenido al Sistema de Contactos\n");
     System.out.println("Usuario:\t" + user.getUsuario());
     System.out.println("1)\tRegistrar Contacto");
@@ -153,10 +159,20 @@ public class Consola {
         break;
 
       default:
-        System.out.println("Opcion no valida\n");
+        System.out.println("\nOpcion no valida\n");
         break;
     }
     return opt;
+  }
+
+  public static boolean camposRegistroValidos(String c1, String c2, String c3){
+
+      return !c1.isEmpty() && !c2.isEmpty() && !c3.isEmpty();
+  }
+
+  public static boolean camposRegistroValidos(String c1, String c2, String c3, String c4){
+
+    return !c1.isEmpty() && !c2.isEmpty() && !c3.isEmpty() && !c4.isEmpty();
   }
 
   public static void registrarContacto(Usuario usuario, Scanner sc) {
@@ -170,17 +186,22 @@ public class Consola {
     System.out.print("Ingresa el URL(opcional): ");
     String url = sc.nextLine();
 
-    if(usuario.registrarContacto(new Contacto(nombre, telefono, eMail, url)))
-        System.out.println("Contacto registrado exitosamente.\n");
+    if(camposRegistroValidos(nombre, telefono, eMail))
+      if(usuario.registrarContacto(new Contacto(nombre, telefono, eMail, url)))
+        System.out.println("\nContacto registrado exitosamente.\n");
+      else
+        System.out.println("\nNombre del contacto ocupado.\n");
     else
-        System.out.println("Nombre del contacto ocupado.\n");
+      System.out.println("\nERROR: Los datos nombre, telefono y eMail no pueden estar vacios.\nContaco no registrado.\n");
+
   }
 
   public static void verContactos(Usuario user) {
-    System.out.println("Lista de contactos:");
+    System.out.println("\nLista de contactos:");
 
     for(Contacto contacto : user.getListaContactos())
       System.out.println(contacto.getNombre());
+    System.out.println("\n");
   }
 
   public static void verDetallesContacto(Usuario user, Scanner sc) {
@@ -189,7 +210,7 @@ public class Consola {
     String nombre = sc.nextLine();
     Contacto contacto = user.getContactoByNombre(nombre);
 
-    if (!contacto.esValido()) {
+    if (contacto == null  || !contacto.esValido()) {
       System.out.println("Contacto no encontrado\n");
       return;
     }
@@ -204,24 +225,27 @@ public class Consola {
       if(!usuario.getUsuario().equals(user.getUsuario()))
         System.out.println(usuario.getUsuario());
     }
+    System.out.println("\n");
   }
 
   public static void verSolicitudes(Usuario usuario) {
-      System.out.println("Solicitudes disponibles: \n");
+      System.out.println("Solicitudes disponibles:");
       for(SolicitudImporte solicitud : usuario.getSolicitudes()) {
         System.out.println(solicitud.getUsuarioSolicitante());
       }
+    System.out.println("\n");
   }
 
   public static void crearSolicitudExportarContacto(Usuario solicitante, Scanner sc) {
     System.out.print("Elige el usuario: ");
     String res = sc.nextLine();
     Usuario receptor = Usuario.getUsuarioByUser(res);
-    if(!receptor.esValido()) {
+    if(receptor == null || !receptor.esValido()){
       System.out.println("Usuario no encontrado\n");
       return;
     }
     receptor.agregarSolicitud(new SolicitudImporte(solicitante.getUsuario()));
+    System.out.print("Solicitud enviada¡\n");
   }
 
   public static void aceptarSolicitud(Usuario usuario, Scanner sc) {
@@ -229,12 +253,14 @@ public class Consola {
     System.out.print("Ingresa el usuario: ");
     String user = sc.nextLine();
     Usuario solicitante = Usuario.getUsuarioByUser(user);
-    if(!solicitante.esValido()) {
-      System.out.println("Usuario no valido");
+    if(solicitante == null || !solicitante.esValido()) {
+      System.out.println("Usuario no valido\n");
       return;
     }
     // TODO meterlo al diagrama
     usuario.aceptarSolicitud(solicitante);
+    System.out.println("Solicitud aceptada¡\n");
+
   }
 
   public static void declinarSolicitud(Usuario usuario, Scanner sc) {
@@ -242,12 +268,13 @@ public class Consola {
     System.out.print("Ingresa el usuario: ");
     String user = sc.nextLine();
     Usuario solicitante = Usuario.getUsuarioByUser(user);
-    if(!solicitante.esValido()) {
-      System.out.println("Usuario no valido");
+    if(solicitante == null || !solicitante.esValido()) {
+      System.out.println("Usuario no valido\n");
       return;
     }
 
     usuario.eliminarSolicitud(solicitante.getUsuario());
+    System.out.println("Solicitud declinada¡\n");
   }
 
   private static void guardarDatos() {

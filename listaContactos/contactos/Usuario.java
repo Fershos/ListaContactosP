@@ -65,7 +65,7 @@ public class Usuario implements Serializable {
       if(u.usuario.equals(usuario) && Cifrador.sonMismoHash(u.getPassword(), pass))
         return u;
 
-    return new Usuario(null, null, "", null);
+    return null;
   }
 
   public Contacto getContactoByNombre(String nombre) {
@@ -75,17 +75,21 @@ public class Usuario implements Serializable {
               return contacto;
           }
       }
-      return new Contacto(null, null, null, null);
+      return null;
   }
 
   public boolean contactoExiste(Contacto contacto) {
-      for(Contacto cont : contactos){
-        // TODO Hacer pruebas para saber si crashea
-          if(cont.getNombre().equals(contacto.getNombre())){
-              return true;
-          }
-      }
+    if (contacto == null) {
       return false;
+    }
+
+    for(Contacto cont : contactos){
+      // TODO Hacer pruebas para saber si crashea
+      if(cont.getNombre().equals(contacto.getNombre())){
+        return true;
+      }
+    }
+    return false;
   }
   public boolean registrarContacto(Contacto contacto) {
         if(contactoExiste(contacto)) {
@@ -101,13 +105,7 @@ public class Usuario implements Serializable {
   }
 
   public boolean esValido() {
-    boolean b = false;
-    try {
-      b = this.usuario.isBlank();
-    } catch(Exception e) {
-      b = true;
-    }
-    return !b;
+    return usuario != null && !usuario.isBlank();
   }
 
   public LinkedList<SolicitudImporte> getSolicitudes() {
@@ -138,7 +136,7 @@ public class Usuario implements Serializable {
           if(usuario.usuario.equals(user))
               return usuario;
 
-    return new Usuario(user, user, user, user);
+    return null;
   }
 
   public static String respaldarListaUsuarios() {

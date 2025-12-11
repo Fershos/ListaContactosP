@@ -8,9 +8,9 @@ public class SolicitudImporte implements Serializable {
   public SolicitudImporte(String solicitante) {
     this.solicitante = solicitante;
   }
-
+  /* No se esta usando
   public void aceptar(Usuario usuario){
-    for(Contacto contacto : Usuario.getUsuarioByUser(solicitante).getListaContactos()) {
+    for(Contacto contacto : Objects.requireNonNull(Usuario.getUsuarioByUser(solicitante)).getListaContactos()) {
       usuario.registrarContacto(new Contacto(contacto.getNombre() + "(" + usuario.getUsuario() + ")",
                                             contacto.getTelefono(),
                                             contacto.getEMail(),
@@ -19,12 +19,15 @@ public class SolicitudImporte implements Serializable {
 
     usuario.eliminarSolicitud(solicitante);
   }
+*/
 
   public String getUsuarioSolicitante() {
     return solicitante;
   }
 
+  /* No se esta usando
   public void declinar(Usuario usuario) {
     usuario.eliminarSolicitud(solicitante);
   }
+  */
 }
