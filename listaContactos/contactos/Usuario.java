@@ -70,7 +70,6 @@ public class Usuario implements Serializable {
 
   public Contacto getContactoByNombre(String nombre) {
       for(Contacto contacto : this.contactos){
-        // TODO Hacer pruebas para saber si crashea
           if(contacto.getNombre().equals(nombre)){
               return contacto;
           }
@@ -84,7 +83,6 @@ public class Usuario implements Serializable {
     }
 
     for(Contacto cont : contactos){
-      // TODO Hacer pruebas para saber si crashea
       if(cont.getNombre().equals(contacto.getNombre())){
         return true;
       }
@@ -95,17 +93,12 @@ public class Usuario implements Serializable {
         if(contactoExiste(contacto)) {
             return false;
         }
-
         this.contactos.push(contacto);
         return true;
   }
 
   public void agregarSolicitud(SolicitudImporte solicitud) {
     this.solicitudes.push(solicitud);
-  }
-
-  public boolean esValido() {
-    return usuario != null && !usuario.isBlank();
   }
 
   public LinkedList<SolicitudImporte> getSolicitudes() {
@@ -124,7 +117,6 @@ public class Usuario implements Serializable {
   }
 
   public void eliminarSolicitud(String solicitante) {
-    // TODO Hacer pruebas
     for(SolicitudImporte solicitud : solicitudes)
       if(solicitud.getUsuarioSolicitante().equals(solicitante))
         solicitudes.remove(solicitud);
@@ -132,7 +124,6 @@ public class Usuario implements Serializable {
 
   public static Usuario getUsuarioByUser(String user) {
       for(Usuario usuario : AlmacenUsuarios.getUsuarios())
-        // TODO Hacer pruebas para saber si crashea
           if(usuario.usuario.equals(user))
               return usuario;
 

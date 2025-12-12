@@ -35,15 +35,6 @@ public class Contacto implements Serializable{
     return this.toString();
   }
 
-  public boolean esValido() {
-    boolean b = false;
-    try {
-      b = this.nombre.isBlank();
-    } catch(Exception e) {
-      b = true;
-    }
-    return !b;
-  }
 
   @Override
   public String toString() {

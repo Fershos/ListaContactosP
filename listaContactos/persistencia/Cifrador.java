@@ -12,13 +12,7 @@ public class Cifrador {
     try {
       MessageDigest ms = MessageDigest.getInstance("SHA-256");
       ms.update(cadena.getBytes());
-      // byte[] hash = ms.digest();
       res = ms.digest();
-      // StringBuffer hexString = new StringBuffer();
-      // for (byte b : hash)
-      //   hexString.append(Integer.toHexString(0xFF & b));
-
-      // res = hexString.toString();
     } catch(NoSuchAlgorithmException e) {
       res = Integer.toString(cadena.hashCode()).getBytes();
     }

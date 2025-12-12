@@ -76,7 +76,7 @@ public class Consola {
     System.out.print("Ingresa el eMail: ");
     String eMail = sc.nextLine();
 
-    if(camposRegistroValidos(nombre, usuario, password, eMail)){
+    if(sonCamposValidosUsuario(nombre, usuario, password, eMail)){
       Usuario user = new Usuario(nombre, usuario, password, eMail);
       user.registrar();
       System.out.println("\nRegistro Exitoso\n");
@@ -93,7 +93,7 @@ public class Consola {
     System.out.print("Ingresa el password: ");
     String password = sc.nextLine();
     Usuario user = Usuario.logIn(usuario, password);
-    if(user == null || !user.esValido()) {
+    if(user == null) {
       System.out.println("\n !!!Usuario o contrasenia no validos¡¡¡\n");
       return;
     }
@@ -165,12 +165,12 @@ public class Consola {
     return opt;
   }
 
-  public static boolean camposRegistroValidos(String c1, String c2, String c3){
+  public static boolean sonCamposValidosContacto(String c1, String c2, String c3){
 
       return !c1.isEmpty() && !c2.isEmpty() && !c3.isEmpty();
   }
 
-  public static boolean camposRegistroValidos(String c1, String c2, String c3, String c4){
+  public static boolean sonCamposValidosUsuario(String c1, String c2, String c3, String c4){
 
     return !c1.isEmpty() && !c2.isEmpty() && !c3.isEmpty() && !c4.isEmpty();
   }
@@ -186,7 +186,7 @@ public class Consola {
     System.out.print("Ingresa el URL(opcional): ");
     String url = sc.nextLine();
 
-    if(camposRegistroValidos(nombre, telefono, eMail))
+    if(sonCamposValidosContacto(nombre, telefono, eMail))
       if(usuario.registrarContacto(new Contacto(nombre, telefono, eMail, url)))
         System.out.println("\nContacto registrado exitosamente.\n");
       else
@@ -205,17 +205,17 @@ public class Consola {
   }
 
   public static void verDetallesContacto(Usuario user, Scanner sc) {
-    System.out.print("Detalles de un Contacto");
-    System.out.print("Ingresa el nombre:");
+    System.out.print("Detalles de un Contacto\n");
+    System.out.print("Ingresa el nombre: ");
     String nombre = sc.nextLine();
     Contacto contacto = user.getContactoByNombre(nombre);
 
-    if (contacto == null  || !contacto.esValido()) {
+    if (contacto == null) {
       System.out.println("Contacto no encontrado\n");
       return;
     }
 
-    System.out.println("Contacto encontrado: \n" + contacto.verDetalles());
+    System.out.println("Contacto encontrado: \n\n" + contacto.verDetalles());
 
   }
 
@@ -239,25 +239,32 @@ public class Consola {
   public static void crearSolicitudExportarContacto(Usuario solicitante, Scanner sc) {
     System.out.print("Elige el usuario: ");
     String res = sc.nextLine();
+    if(solicitante.getUsuario().equals(res)){
+      System.out.println("Usuario no valido\n");
+      return;
+    }
     Usuario receptor = Usuario.getUsuarioByUser(res);
-    if(receptor == null || !receptor.esValido()){
+    if(receptor == null){
       System.out.println("Usuario no encontrado\n");
       return;
     }
     receptor.agregarSolicitud(new SolicitudImporte(solicitante.getUsuario()));
-    System.out.print("Solicitud enviada¡\n");
+    System.out.print("Solicitud enviada¡\n\n");
   }
 
   public static void aceptarSolicitud(Usuario usuario, Scanner sc) {
     System.out.println("Que solicitud desea aceptar? ");
     System.out.print("Ingresa el usuario: ");
     String user = sc.nextLine();
+    if (usuario.getUsuario().equals(user)) {
+      System.out.println("No puedes aceptar una solicitud de ti mismo\n");
+      return;
+    }
     Usuario solicitante = Usuario.getUsuarioByUser(user);
-    if(solicitante == null || !solicitante.esValido()) {
+    if(solicitante == null) {
       System.out.println("Usuario no valido\n");
       return;
     }
-    // TODO meterlo al diagrama
     usuario.aceptarSolicitud(solicitante);
     System.out.println("Solicitud aceptada¡\n");
 
@@ -268,7 +275,7 @@ public class Consola {
     System.out.print("Ingresa el usuario: ");
     String user = sc.nextLine();
     Usuario solicitante = Usuario.getUsuarioByUser(user);
-    if(solicitante == null || !solicitante.esValido()) {
+    if(solicitante == null) {
       System.out.println("Usuario no valido\n");
       return;
     }
