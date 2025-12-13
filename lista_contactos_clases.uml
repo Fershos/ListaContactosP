@@ -2,15 +2,17 @@
   package ui {
     class Consola {
       + main(args[] String)
-      + registrarUsuario()
-      + registrarContacto()
+      + registrarUsuario(sc: Scanner)
+      + ingresarComoUsuario(sc: Scanner)
+      + registrarContacto(usuario: Usuario, sc: Scanner)
       + login(usuario : String, password : String)
-      + verListaContactos()
-      + verDetallesContactos()
-      + CompartirContacto()
-      + verSolicitudes()
-      + AceptarSolicitud()
-      + RechazarSolicitud()
+      + verContactos(user: Usuario)
+      + verDetallesContacto(user: Usuario, sc: Scanner)
+      + verUsuariosDisponiblesSolicitud(sc: Scanner)
+      + verSolicitudes(usuario: Usuario)
+      + crearSolicitudExportarContacto(solicitante: Usuario, sc: Scanner) 
+      + aceptarSolicitud(usuario: Usuario, sc: Scanner)
+      + declinarSolicitud(usuario: Usuario, sc: Scanner)
     }
 
   }
@@ -22,13 +24,22 @@
       - password : String
       - eMail : String
       - contactos : Contacto[]
-      - solicidutes : Solictud[]
-
+      - solicitudes : SolictudImporte[]
+    
+      + registrar()
       + logIn(usuario : String, password : String)
-      + agregarContacto(contacto : Contacto) : boolean
-      + verListaContactos()
+      + registrarContacto(contacto : Contacto) : boolean
+      + getContactoByNombre(nombre: String): Contacto
+      + getListaContactos():Contacto[]
+      + contactoExiste(contacto: Contacto: boolean)
       + agregarSolicitud(solicitud : SolicitudImporte)
-      + verSolicitudes() : String
+      + getSolicitudes():SolicitudImporte[]
+      + aceptarSolicitud(solicitante: Usuario)
+      + eliminarSolicitud(solicitante: String)
+      + getUsuarioByUser(user: String): Usuario
+      + respaldarListaUsuarios(): String
+      + cargarListaUsuarios(): String
+
     }
 
     class Contacto {
@@ -41,9 +52,9 @@
     }
 
     class SolicitudImporte {
-      - solicitante : Usuario
-      + aceptar()
-      + declinar()
+      - solicitante : String
+
+      + getUsuarioSolicitante(): String
     }
 
     Usuario  -->  Contacto
@@ -57,14 +68,18 @@
     class AlmacenUsuarios {
       - usuarios : Usuario[]
 
+      + getUsuarios(): Usuario[]
       + guardarUsuario(usuario : Usuario)
-      + cargarUsuarios() : Usuario[]
+      + respaldarUsuarios(): String
+      + cargarUsuarios() : String
     }
 
     class Cifrador {
-      + cifrar(password : String, dato : String) : String
-      + decifrar(password : String, dato_cifrado : String) : String
-      + hashear(password : String) : String
+      + hashear(cadena: String): byte[]
+      + sonMismoHash(uno: byte[], dos: byte[]): boolean
+      + cifrar(password : byte[], dato : String) : String
+      + descifrar(password : byte[], datoCifrado : String) : String
+     
     }
 
     AlmacenUsuarios --> Cifrador
