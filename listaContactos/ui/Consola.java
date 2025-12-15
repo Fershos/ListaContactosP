@@ -80,9 +80,14 @@ public class Consola {
     String eMail = sc.nextLine();
 
     if(sonCamposValidosUsuario(nombre, usuario, password, eMail)){
-      Usuario user = new Usuario(nombre, usuario, password, eMail);
-      user.registrar();
-      System.out.println("\nRegistro Exitoso\n");
+      Usuario nuevo = Usuario.getUsuarioByUser(nombre);
+      if(nuevo == null) {
+        Usuario user = new Usuario(nombre, usuario, password, eMail);
+        user.registrar();
+        System.out.println("\nRegistro Exitoso\n");
+      }else {
+        System.out.println("\nEl nombre de usuario ya existe.\n");
+      }
     }else{
       System.out.println("\nRegistro incompleto, todos los campos deben llenarse\n");
     }
@@ -172,14 +177,14 @@ public class Consola {
     return opt;
   }
 
-  public static boolean sonCamposValidosContacto(String c1, String c2, String c3){
+  public static boolean sonCamposValidosContacto(String nombre, String telefono, String eMail){
 
-      return !c1.isEmpty() && !c2.isEmpty() && !c3.isEmpty();
+      return !nombre.isEmpty() && !telefono.isEmpty() && !eMail.isEmpty();
   }
 
-  public static boolean sonCamposValidosUsuario(String c1, String c2, String c3, String c4){
+  public static boolean sonCamposValidosUsuario(String nombre, String usuario, String pass, String eMail){
 
-    return !c1.isEmpty() && !c2.isEmpty() && !c3.isEmpty() && !c4.isEmpty();
+    return !nombre.isEmpty() && !usuario.isEmpty() && !pass.isEmpty() && !eMail.isEmpty();
   }
 
   public static void registrarContacto(Usuario usuario, Scanner sc) {

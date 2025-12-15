@@ -76,13 +76,13 @@ public class Usuario implements Serializable {
   }
 
   public boolean contactoExiste(Contacto contacto) {
-    if (contacto == null) {
+    if(contacto == null) {
       return false;
     }
 
     try {
-      for(Contacto cont : getListaContactos()){
-        if(cont.getNombre().equals(contacto.getNombre())){
+      for(Contacto lista : getListaContactos()){
+        if(contacto.getNombre().equals(lista.getNombre())){
           return true;
         }
       }
@@ -91,6 +91,7 @@ public class Usuario implements Serializable {
     }
     return false;
   }
+
   public boolean registrarContacto(Contacto contacto) {
     if(contactoExiste(contacto))
       return false;
