@@ -5,7 +5,6 @@
       + registrarUsuario(sc: Scanner)
       + ingresarComoUsuario(sc: Scanner)
       + registrarContacto(usuario: Usuario, sc: Scanner)
-      + login(usuario : String, password : String)
       + verContactos(user: Usuario)
       + verDetallesContacto(user: Usuario, sc: Scanner)
       + verUsuariosDisponiblesSolicitud(sc: Scanner)
@@ -37,6 +36,10 @@
       + getUsuarioByUser(user: String): Usuario
       + respaldarListaUsuarios(): String
       + cargarListaUsuarios(): String
+      + respaldarListaContactos(): String
+      + cargarListaContactos(): String
+      + respaldarListaSolicitudes(): String
+      + cargarListaSolicitudes():
     }
 
     class Contacto {
@@ -46,12 +49,20 @@
       - url : String
 
       + verDetalles() : String
+      + respaldarContactos(): String
+      + cargarContactos(): String
+      + getContactos(usuario: String): Contacto[]
+      + agregarContacto(usuario: String, contacto: Contacto):
     }
 
     class SolicitudImporte {
       - solicitante : String
 
       + getUsuarioSolicitante(): String
+      + respaldarSolicitudes(): String
+      + cargarSolicitudes(): String
+      + agregarSolicitud(usuario: Usuario, solicitud: SolicitudImporte):
+      + getSolicitudes(usuario: String): SolicitudImporte[]
     }
 
     Usuario  -->  Contacto
@@ -72,19 +83,19 @@
     class AlmacenContactos {
       - contactos : Contacto[]
 
-      + getContactos(usuario : String): Contacto[]
-      + guardarContacto(contacto : Contacto)
+      + agregarContacto(usuario: String, contacto: Contacto)
       + respaldarContactos(): String
       + cargarContactos() : String
+      + getContactos(usuario : String): Contacto[]
     }
 
     class AlmacenSolicitudes {
       - solicitudes : SolicitudImporte[]
 
-      + getSolicitudes(usuario : String): Solicitudes[]
-      + guardarSolicitud(solicitud : SolicitudImporte)
+      + agregarSolicitud(usuario: String, solicitud : SolicitudImporte)
       + respaldarSolicitudes(): String
       + cargarSolicitudes() : String
+      + getSolicitudes(usuario : String): Solicitudes[]
     }
 
     class Cifrador {
