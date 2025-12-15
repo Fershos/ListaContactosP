@@ -1,6 +1,9 @@
 package listaContactos.contactos;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+
+import listaContactos.persistencia.AlmacenContactos;
 
 public class Contacto implements Serializable{
   private String nombre;
@@ -44,5 +47,21 @@ public class Contacto implements Serializable{
       res += "URL: " + this.url + "\n\n";
       return res;
 
+  }
+
+  public static String cargarContactos() {
+    return AlmacenContactos.cargarContactos();
+  }
+
+  public static String respaldarContactos() {
+    return AlmacenContactos.respaldarContactos();
+  }
+
+  public static LinkedList<Contacto> getContactos(String usuario) {
+    return AlmacenContactos.getContactos(usuario);
+  }
+
+  public static void agregarContacto(String usuario, Contacto contacto) {
+    AlmacenContactos.agregarContacto(usuario, contacto);
   }
 }

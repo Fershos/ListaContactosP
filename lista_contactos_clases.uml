@@ -21,17 +21,15 @@
     class Usuario {
       - nombre : String
       - usuario : String
-      - password : String
+      - password : byte[]
       - eMail : String
-      - contactos : Contacto[]
-      - solicitudes : SolictudImporte[]
-    
+
       + registrar()
       + logIn(usuario : String, password : String)
       + registrarContacto(contacto : Contacto) : boolean
       + getContactoByNombre(nombre: String): Contacto
       + getListaContactos():Contacto[]
-      + contactoExiste(contacto: Contacto: boolean)
+      + contactoExiste(contacto: Contacto) : boolean
       + agregarSolicitud(solicitud : SolicitudImporte)
       + getSolicitudes():SolicitudImporte[]
       + aceptarSolicitud(solicitante: Usuario)
@@ -39,7 +37,6 @@
       + getUsuarioByUser(user: String): Usuario
       + respaldarListaUsuarios(): String
       + cargarListaUsuarios(): String
-
     }
 
     class Contacto {
@@ -59,8 +56,6 @@
 
     Usuario  -->  Contacto
     Usuario  -->  SolicitudImporte
-    Usuario "1" *-- "*" Contacto
-    Usuario "1" *-- "*" SolicitudImporte
   }
 
   package persistencia {
@@ -74,18 +69,39 @@
       + cargarUsuarios() : String
     }
 
+    class AlmacenContactos {
+      - contactos : Contacto[]
+
+      + getContactos(usuario : String): Contacto[]
+      + guardarContacto(contacto : Contacto)
+      + respaldarContactos(): String
+      + cargarContactos() : String
+    }
+
+    class AlmacenSolicitudes {
+      - solicitudes : SolicitudImporte[]
+
+      + getSolicitudes(usuario : String): Solicitudes[]
+      + guardarSolicitud(solicitud : SolicitudImporte)
+      + respaldarSolicitudes(): String
+      + cargarSolicitudes() : String
+    }
+
     class Cifrador {
       + hashear(cadena: String): byte[]
       + sonMismoHash(uno: byte[], dos: byte[]): boolean
       + cifrar(password : byte[], dato : String) : String
       + descifrar(password : byte[], datoCifrado : String) : String
-     
     }
 
     AlmacenUsuarios --> Cifrador
+    AlmacenContactos --> Cifrador
+    AlmacenSolicitudes --> Cifrador
 }
 
     Consola --> Usuario
     Usuario --> Cifrador
     Usuario --> AlmacenUsuarios
+    Contacto --> AlmacenContactos
+    SolicitudImporte --> AlmacenSolicitudes
 @enduml

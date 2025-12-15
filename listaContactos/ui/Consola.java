@@ -14,6 +14,8 @@ public class Consola {
     int opt = 0;
     Scanner sc = new Scanner(System.in);
     System.out.println(Usuario.cargarListaUsuarios());
+    System.out.println(Usuario.cargarListaContactos());
+    System.out.println(Usuario.cargarListaSolicitudes());
     while(opt != SALIR_PRINCIPAL) {
       imprimirMenuPrincipal();
       opt = seleccionarOpcionPrincipal(sc);
@@ -21,17 +23,17 @@ public class Consola {
   }
 
   private static int validarEntradaEntero(Scanner sc) {
-	  while (true) {
-		  try {
-			  int opcion = sc.nextInt();
-			  sc.nextLine();
-			  return opcion;
-		  } catch (Exception e) {
-			  System.out.println("ERROR: Debes ingresar un numero");
-			  System.out.print("Por favor ingresa una opcion: ");
-			  sc.nextLine();
-			}
-	  }
+    while(true) {
+      try {
+        int opcion = sc.nextInt();
+        sc.nextLine();
+        return opcion;
+      } catch (Exception e) {
+        System.out.println("ERROR: Debes ingresar un numero");
+        System.out.print("Por favor ingresa una opcion: ");
+        sc.nextLine();
+      }
+    }
   }
 
   private static void imprimirMenuPrincipal() {
@@ -47,6 +49,7 @@ public class Consola {
     switch(opt) {
       case 1:
         registrarUsuario(sc);
+        Usuario.respaldarListaUsuarios();
         break;
 
       case 2:
@@ -124,6 +127,7 @@ public class Consola {
     switch(opt) {
       case 1:
         registrarContacto(usuario, sc);
+        Usuario.respaldarListaContactos();
         break;
 
       case 2:
@@ -140,6 +144,7 @@ public class Consola {
 
       case 5:
         crearSolicitudExportarContacto(usuario, sc);
+        Usuario.respaldarListaSolicitudes();
         break;
 
       case 6:
@@ -148,10 +153,12 @@ public class Consola {
 
       case 7:
         aceptarSolicitud(usuario, sc);
+        Usuario.respaldarListaSolicitudes();
         break;
 
       case 8:
         declinarSolicitud(usuario, sc);
+        Usuario.respaldarListaSolicitudes();
         break;
 
       case SALIR_USUARIO:
@@ -199,9 +206,13 @@ public class Consola {
   public static void verContactos(Usuario user) {
     System.out.println("\nLista de contactos:");
 
-    for(Contacto contacto : user.getListaContactos())
-      System.out.println(contacto.getNombre());
-    System.out.println("\n");
+    try {
+      for(Contacto contacto :  user.getListaContactos())
+        System.out.println(contacto.getNombre());
+      System.out.println("\n");
+    } catch(NullPointerException e) {
+      System.out.println("¡¡No tienes contactos!!\n");
+    }
   }
 
   public static void verDetallesContacto(Usuario user, Scanner sc) {
@@ -230,10 +241,14 @@ public class Consola {
 
   public static void verSolicitudes(Usuario usuario) {
       System.out.println("Solicitudes disponibles:");
-      for(SolicitudImporte solicitud : usuario.getSolicitudes()) {
-        System.out.println(solicitud.getUsuarioSolicitante());
+      try {
+        for(SolicitudImporte solicitud : usuario.getSolicitudes()) {
+          System.out.println(solicitud.getUsuarioSolicitante());
+        }
+        System.out.println("\n");
+      } catch(NullPointerException e) {
+        System.out.println("¡¡No tienes solicitudes!!\n");
       }
-    System.out.println("\n");
   }
 
   public static void crearSolicitudExportarContacto(Usuario solicitante, Scanner sc) {
@@ -286,5 +301,7 @@ public class Consola {
 
   private static void guardarDatos() {
     Usuario.respaldarListaUsuarios();
+    Usuario.respaldarListaContactos();
+    Usuario.respaldarListaSolicitudes();
   }
 }
