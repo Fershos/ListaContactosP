@@ -8,8 +8,6 @@ import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 
 import listaContactos.contactos.Usuario;
-// import listaContactos.contactos.Contacto;
-// import listaContactos.contactos.SolicitudImporte;
 
 public class AlmacenUsuarios {
   private static LinkedList<Usuario> usuarios = new LinkedList<>();
@@ -30,13 +28,6 @@ public class AlmacenUsuarios {
       for(Usuario user : usuarios) {
         byte[] pass = user.getPassword();
         Usuario usrRespaldo = cifrarUsuario(pass, user);
-
-        // for(Contacto contacto : user.getListaContactos())
-        //   usrRespaldo.registrarContacto(cifrarContacto(pass, contacto));
-
-        // for(SolicitudImporte solicitud : user.getSolicitudes())
-        //   usrRespaldo.agregarSolicitud(new SolicitudImporte(Cifrador.cifrar(pass, solicitud.getUsuarioSolicitante())));
-
         respaldo.push(usrRespaldo);
       }
       oos.writeObject(respaldo);
@@ -74,13 +65,6 @@ public class AlmacenUsuarios {
       for(Usuario usr : cifrados) {
         byte[] pass = usr.getPassword();
         Usuario usrDec = decifrarUsuario(pass, usr);
-
-        // for(Contacto contacto : usr.getListaContactos())
-        //   usrDec.registrarContacto(decifrarContacto(pass, contacto));
-
-        // for(SolicitudImporte solicitud : usr.getSolicitudes())
-        //   usrDec.agregarSolicitud(new SolicitudImporte(Cifrador.decifrar(pass, solicitud.getUsuarioSolicitante())));
-
         usuarios.push(usrDec);
       }
       ois.close();

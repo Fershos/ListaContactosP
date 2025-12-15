@@ -49,7 +49,7 @@ public class Consola {
     switch(opt) {
       case 1:
         registrarUsuario(sc);
-        Usuario.respaldarListaUsuarios();
+        System.out.println(Usuario.respaldarListaUsuarios());
         break;
 
       case 2:
@@ -132,7 +132,7 @@ public class Consola {
     switch(opt) {
       case 1:
         registrarContacto(usuario, sc);
-        Usuario.respaldarListaContactos();
+        System.out.println(Usuario.respaldarListaContactos());
         break;
 
       case 2:
@@ -149,7 +149,7 @@ public class Consola {
 
       case 5:
         crearSolicitudExportarContacto(usuario, sc);
-        Usuario.respaldarListaSolicitudes();
+        System.out.println(Usuario.respaldarListaSolicitudes());
         break;
 
       case 6:
@@ -158,12 +158,12 @@ public class Consola {
 
       case 7:
         aceptarSolicitud(usuario, sc);
-        Usuario.respaldarListaSolicitudes();
+        System.out.println(Usuario.respaldarListaSolicitudes());
         break;
 
       case 8:
         declinarSolicitud(usuario, sc);
-        Usuario.respaldarListaSolicitudes();
+        System.out.println(Usuario.respaldarListaSolicitudes());
         break;
 
       case SALIR_USUARIO:
@@ -305,8 +305,8 @@ public class Consola {
   }
 
   private static void guardarDatos() {
-    Usuario.respaldarListaUsuarios();
-    Usuario.respaldarListaContactos();
-    Usuario.respaldarListaSolicitudes();
+    System.out.println(Usuario.respaldarListaUsuarios());
+    System.out.println(Usuario.respaldarListaContactos());
+    System.out.println(Usuario.respaldarListaSolicitudes());
   }
 }
